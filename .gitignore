@@ -1,0 +1,7 @@
+# Environment files
+/frontend/my-app/.env
+/backend/.env
+
+# Node modules
+/frontend/my-app/node_modules/
+/backend/node_modules/
