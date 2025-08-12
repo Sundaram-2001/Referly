@@ -1,2 +1,2 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation</p>
+<p>Welcome to Referly! Your go-to place for referrals at any company — from startups to the Big 4!</p>
+<a href="/login">Have an account?Login</a> || <a href="/signup">Get started ,create an accout here!</a>
