@@ -1,18 +1,34 @@
 <script>
-    
+  import { goto } from "$app/navigation";
+  let email=''
+  let password=''
+  let errorMessage=''
+  let successMessage=''
+  import { supabase } from "$lib/supabaseClient";
+  const signIn=async()=>{
+    const {data,error}=await supabase.auth.signInWithPassword({
+      email,
+      password
+    })
+    if(error){
+      console.error(error)
+      errorMessage="Unexpected error , kindly try again!!!"
+    }
+    else{
+      await goto("/home")
+    }
+  }
 </script>
 <main>
-    <form
-  action="https://formspree.io/f/myzjdjbv"
-  method="POST"
->
+    <form on:submit={signIn}>
   <label>
-    Your email:
-    <input type="email" name="email">
+     Email:
+    <input type="email" name="email" bind:value={email} required />
   </label>
   <label>
-    Your message:
-    <textarea name="message"></textarea>
+    Password:
+    <input type="password" bind:value={password} required/>
+    </label>
   <button type="submit">Send</button>
 </form>
 </main>

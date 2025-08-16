@@ -1,0 +1,6 @@
+<script>
+
+</script>
+<main>
+    <h3>this is the home page!</h3>
+</main>
