@@ -10,7 +10,7 @@
     const signUpUser=async()=>{
         const {data,error}=await supabase.auth.signUp({
             email,password,options:{
-                emailRedirectTo:"http://localhost:5173/confirmation"
+               emailRedirectTo: `${import.meta.env.PUBLIC_SITE_URL}/confirmation`
             }
         })
         if(error){
