@@ -1,0 +1,6 @@
+#ignore node modules
+frontend/node_modules
+frontend/my-app/.env
+
+.env
+.env.prod
