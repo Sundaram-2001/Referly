@@ -1,32 +1,53 @@
 <script>
-    import { goto } from "$app/navigation";
-    import { supabase } from "$lib/supabaseClient";
-    import { onMount } from "svelte";
+	import { goto } from "$app/navigation";
+	import { supabase } from "$lib/supabaseClient";
+	import { onMount } from "svelte";
 
-    onMount(async()=>{
-        const {data:{session},error}=await supabase.auth.getSession()
-        
-        // This block handles errors caused by supabase
-        if(error){
-            console.error("Error fetching session:", error);
-            alert("Unexpected error in fetching session. Redirecting you..");
-            await goto("/"); 
-            return;
-        }
+	onMount(async () => {
+		const { data: { session }, error } = await supabase.auth.getSession();
 
-        // This block handles successful session creation.
-        if(session){
-            await goto("/home");
-        } 
-        
-        // handling unexpected errors
-        else {
-            console.warn("No session found. This might be due to an expired magic link or already used token.");
-            alert("The login link is no longer valid. Please request a new one.");
-            await goto("/"); 
-        }
-    })
+		// supabase errors in fetching the session
+		if (error) {
+			console.error("Error fetching session:", error);
+			alert("Unexpected error while fetching session. Redirecting...");
+			await goto("/");
+			return;
+		}
+
+		// profile check
+		if (session) {
+			const user = session.user;
+
+			// session exists, nowcheck if profile exists
+			const { data: profile, error: profileError } = await supabase
+				.from("user_details")
+				.select("*")
+				.eq("id", user.id)
+				.single();
+            //error in fetching the profile
+			if (profileError && profileError.code !== "PGRST116") {
+				// PGRST116 means "No rows found"
+				console.error("Error fetching profile:", profileError);
+				alert("Error checking profile. Redirecting...");
+				await goto("/");
+				return;
+			}
+            //profile does not exists, that means its a new user
+			if (!profile) {
+				await goto("/onboarding");
+			} else {
+				// Existing user, route to the dashboard
+				await goto("/dashboard");
+			}
+		} else {
+			// No session found
+			console.warn("No session found. Possibly expired or invalid link.");
+			alert("The login link is no longer valid. Please request a new one.");
+			await goto("/");
+		}
+	});
 </script>
+
 <main>
-    <h3>Redirecting...</h3>
+	<h3>Redirecting...</h3>
 </main>
