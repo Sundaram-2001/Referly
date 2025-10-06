@@ -18,8 +18,8 @@ export const handle = async ({ event, resolve }) => {
 
     const { data: { session } } = await event.locals.supabase.auth.getSession();
 
-    if (!session && event.url.pathname.startsWith('/home')) {
-        throw redirect(302, '/');
+    if (!session && (event.url.pathname.startsWith('/home')||(event.url.pathname.startsWith('/dashboard')))) {
+        throw redirect(302, '/auth-error');
     }
 
     return resolve(event);

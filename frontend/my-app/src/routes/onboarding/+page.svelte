@@ -1,6 +1,11 @@
 <script>
-
+    let name=''
+    let email=''
+    let phone_number=''
+    let YOE=''
+    let company=''
+    let college=''
 </script>
 <main>
-    This is the onboarding page!
+    Welcome, let us know more about yourself.
 </main>
